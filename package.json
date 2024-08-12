@@ -22,7 +22,6 @@
   "author": "Ivan Shano",
   "license": "(MIT OR Apache-2.0)",
   "dependencies": {
-    "bn": "^1.0.5",
     "bn.js": "^5.2.1",
     "web3": "^4.11.1"
   },
