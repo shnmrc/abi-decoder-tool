@@ -1,7 +1,7 @@
 {
-  "name": "abi-decoder-ts",
+  "name": "abi-decoder-tool",
   "version": "1.0.0",
-  "description": "",
+  "description": "Nodejs and Typescript library for decoding data params and events from ethereum transactions",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -19,6 +19,14 @@
     "decode",
     "typescript"
   ],
+  "bugs": {
+    "url": "https://github.com/shnmrc/abi-decoder-ts/issues"
+  },
+  "homepage": "https://github.com/shnmrc/abi-decoder-ts",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shnmrc/abi-decoder-ts"
+  },
   "author": "Ivan Shano",
   "license": "(MIT OR Apache-2.0)",
   "dependencies": {
