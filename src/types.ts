@@ -6,9 +6,14 @@ export interface ABIInput {
 }
 
 export interface ABIItem {
-  inputs: ABIInput[];
-  name: string;
+  inputs: ABIInput[] | never[];
   type: string;
+  name?: string;
+  payable?: boolean;
+  stateMutability?: string;
+  anonymous?: boolean;
+  constant?: boolean;
+  outputs?: unknown;
 }
 
 export interface DecodedParam {
@@ -23,9 +28,9 @@ export interface DecodedMethod {
 }
 
 export interface DecodedLog {
-  name: string;
   events: DecodedParam[];
   address: string;
+  name?: string;
 }
 
 export interface LogEntry {

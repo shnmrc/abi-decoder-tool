@@ -107,7 +107,7 @@ export class AbiDecoder {
         return { name: input.name, value, type: input.type };
       });
 
-      return { name: abiItem.name, params };
+      return { name: abiItem.name ?? "", params };
     } catch (error) {
       console.error("Error decoding method:", error);
       return;
