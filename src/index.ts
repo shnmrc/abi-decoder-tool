@@ -23,7 +23,7 @@ export class AbiDecoder {
     abiArray.forEach((abi) => {
       if (abi.name) {
         const signature = this.decoder.utils.sha3(
-          abi.name + "(" + abi.inputs.map(this._typeToString).join(",") + ")",
+          abi.name + "(" + abi.inputs?.map(this._typeToString).join(",") + ")",
         );
         if (signature) {
           const key =
@@ -48,7 +48,7 @@ export class AbiDecoder {
         const signature = this.decoder.utils.sha3(
           abi.name +
             "(" +
-            abi.inputs.map((input) => input.type).join(",") +
+            abi.inputs?.map((input) => input.type).join(",") +
             ")",
         );
         if (signature) {
@@ -65,13 +65,14 @@ export class AbiDecoder {
 
     this.savedABIs = this.savedABIs.filter((abi) => {
       const signature = this.decoder.utils.sha3(
-        abi.name + "(" + abi.inputs.map((input) => input.type).join(",") + ")",
+        abi.name + "(" + abi.inputs?.map((input) => input.type).join(",") + ")",
       );
 
-      const key =
-        // @ts-ignore
-        abi.type === "event" ? signature.slice(2) : signature.slice(2, 10);
-      return !signaturesToRemove.has(key);
+      if (signature) {
+        const key =
+          abi.type === "event" ? signature.slice(2) : signature.slice(2, 10);
+        return !signaturesToRemove.has(key);
+      }
     });
   }
 
@@ -90,10 +91,10 @@ export class AbiDecoder {
 
     try {
       const decoded = this.decoder.eth.abi.decodeParameters(
-        abiItem.inputs,
+        abiItem.inputs ?? [],
         data.slice(10),
       );
-      const params = abiItem.inputs.map((input, i) => {
+      const params = abiItem.inputs?.map((input, i) => {
         let value = decoded[i];
         if (input.type.startsWith("uint") || input.type.startsWith("int")) {
           value = Array.isArray(value)
@@ -107,9 +108,10 @@ export class AbiDecoder {
         return { name: input.name, value, type: input.type };
       });
 
-      return { name: abiItem.name ?? "", params };
-    } catch (error) {
-      console.error("Error decoding method:", error);
+      return { name: abiItem.name ?? "", params: params ?? [] };
+    } catch {
+      // Return undefined if decoding fails
+      // Report issue to dev
       return;
     }
   }
@@ -128,7 +130,7 @@ export class AbiDecoder {
           let topicsIndex = 1;
 
           let dataTypes: string[] = [];
-          method.inputs.forEach((input) => {
+          method.inputs?.forEach((input) => {
             if (!input.indexed) {
               dataTypes.push(input.type);
             }
@@ -139,6 +141,14 @@ export class AbiDecoder {
             dataTypes,
             logData.slice(2),
           );
+
+          if (!method.inputs) {
+            return {
+              name: method.name,
+              events: [],
+              address: logItem.address,
+            };
+          }
 
           // Loop through topics and data to get the parameters
           method.inputs.forEach((param) => {
@@ -187,7 +197,7 @@ export class AbiDecoder {
             address: logItem.address,
           };
         }
-        return; // Return undefined if method is not found
+        return;
       })
       .filter((decoded) => this.keepLogs || decoded);
   }

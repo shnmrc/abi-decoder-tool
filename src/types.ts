@@ -5,15 +5,20 @@ export interface ABIInput {
   components?: ABIInput[];
 }
 
+export interface ABIOutput {
+  name: string;
+  type: string;
+}
+
 export interface ABIItem {
-  inputs: ABIInput[] | never[];
+  inputs?: ABIInput[] | never[];
   type: string;
   name?: string;
   payable?: boolean;
   stateMutability?: string;
   anonymous?: boolean;
   constant?: boolean;
-  outputs?: unknown;
+  outputs?: ABIOutput[];
 }
 
 export interface DecodedParam {
