@@ -1,6 +1,22 @@
 # abi-decoder typescript
 Nodejs and Typescript library for decoding data params and events from ethereum transactions
 
+## Installation
+
+You can install the package using [NPM](https://www.npmjs.com/package/abi-decoder-tool)
+
+### Using NPM
+
+```bash
+npm install abi-decoder-tool
+```
+
+### Using PNPM
+
+```bash
+pnpm add abi-decoder-tool
+```      
+
 # Instantiate
 ```ts
 const abiDecoder = new AbiDecoder();
